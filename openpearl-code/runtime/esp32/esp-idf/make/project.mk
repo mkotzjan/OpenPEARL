@@ -13,7 +13,7 @@
 # Set IDF_PATH to override eventual environment variables
 IDF_PATH:=$(subst /make,,$(dir $(abspath $(lastword $(MAKEFILE_LIST)))))
 
-.PHONY: build-components menuconfig defconfig all build clean all_binaries check-submodules size size-components size-files list-components
+.PHONY: build-components menuconfig defconfig all build clean all_binaries size size-components size-files list-components
 
 MAKECMDGOALS ?= all
 all: all_binaries
@@ -423,7 +423,7 @@ endef
 define GenerateComponentTargets
 .PHONY: component-$(2)-build component-$(2)-clean
 
-component-$(2)-build: check-submodules $(call prereq_if_explicit, component-$(2)-clean) | $(BUILD_DIR_BASE)/$(2)
+component-$(2)-build: $(call prereq_if_explicit, component-$(2)-clean) | $(BUILD_DIR_BASE)/$(2)
 	$(call ComponentMake,$(1),$(2)) build
 
 component-$(2)-clean: | $(BUILD_DIR_BASE)/$(2) $(BUILD_DIR_BASE)/$(2)/component_project_vars.mk
